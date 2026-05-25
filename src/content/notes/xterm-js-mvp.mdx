@@ -1,0 +1,27 @@
+---
+title: "Why xterm.js is enough for a terminal training MVP"
+date: "2024-02-10"
+lede: "You don't need a full terminal emulator binary to build structured training scenarios."
+---
+
+When starting ByteDojo, the first question was: real terminal emulator or xterm.js in a browser? The pragmatic answer is xterm.js, at least for an MVP.
+
+## What xterm.js actually gives you
+
+xterm.js is a terminal emulator component — it handles VT100/ANSI escape sequences, cursor movement, character rendering, and input events. For structured training scenarios, this is sufficient:
+
+- **Input capture**: keydown events with full modifier support
+- **Output control**: write arbitrary sequences to the terminal surface
+- **Cursor positioning**: move freely, draw progress indicators, clear regions
+
+You don't get a real PTY. You don't get process isolation. You don't get signal handling. But for interactive drills that you control both ends of, these limitations don't matter.
+
+## The actual constraint
+
+The constraint isn't xterm.js — it's that you're responsible for the "process" side. Every keystroke goes into your own state machine, not to a shell. This means you can instrument everything: timing, sequence correctness, retry paths.
+
+In a real terminal with a real shell, you'd have to intercept at the TTY layer. In xterm.js, the keyboard events are yours before they hit any rendering.
+
+## When you'd need something else
+
+If ByteDojo ever needs to run real shell commands — actual `git` invocations, real file operations — xterm.js + a WebSocket backend with a PTY (node-pty) becomes the architecture. For the current scope, xterm.js standalone is the right call.

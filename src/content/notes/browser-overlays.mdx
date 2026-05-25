@@ -1,0 +1,25 @@
+---
+title: "Problems with browser overlays"
+date: "2024-01-22"
+lede: "Overlays injected into the page fight with the host document in predictable ways."
+---
+
+A browser overlay is a script that inserts itself into a running page to observe or modify its behavior. The pattern sounds clean in theory. In practice, there are a few failure modes worth knowing.
+
+## Z-index wars
+
+The overlay needs to appear above the host page's content. The host page may have elements with `z-index: 9999` or `position: fixed` stacking contexts that don't participate in the global z-order. The only reliable fix is a `<dialog>` element or a shadow DOM root — both create a new stacking context that sits above everything else.
+
+## Style bleed
+
+Injected stylesheets affect the host document unless scoped carefully. Shadow DOM encapsulates styles by default. Without it, you're fighting specificity and risking visual regressions on the host page.
+
+## Event interception
+
+If the overlay captures pointer events, it can silently swallow clicks intended for the host. The fix is `pointer-events: none` on the overlay container, with `pointer-events: auto` only on interactive overlay elements. Easy to forget, expensive to debug.
+
+## Cleanup
+
+Overlays that don't clean up after themselves — event listeners, injected nodes, mutation observers — accumulate and cause memory leaks and behavioral drift. Explicit teardown on unmount is not optional.
+
+LiveStyleSync handles all four. The implementation uses a `<dialog>` for stacking, a shadow root for style isolation, explicit `pointer-events` management, and a `disconnect()` method that unregisters everything.

@@ -1,0 +1,23 @@
+---
+title: "Building interactive developer systems"
+date: "2023-12-19"
+lede: "Developer tools that give real-time feedback change how you think about the problem."
+---
+
+The most useful tools in a developer's environment share a property: they close the feedback loop. You make a change, the environment responds, you adjust. The tighter the loop, the faster you can think.
+
+Most developer tooling optimizes for the wrong end of this loop — making the output faster or more detailed, while the input side (how you express changes) stays unchanged.
+
+## Where the interesting work is
+
+The interesting layer is between intent and execution. You know what you want to change. The tool's job is to minimize the distance between knowing and seeing.
+
+CSS patching is a clear example. The intent is "this element should be lime on hover." The standard path: open file, find selector, edit property, save, wait for reload, observe. Five steps, two of which involve waiting.
+
+The short path: click the element in the overlay, change the value, see it immediately, commit when satisfied. Two steps, zero waiting.
+
+## Why terminal-first
+
+Terminal-first tools have a structural advantage: the input model is explicit. Every action is a visible, composable command. This makes it possible to record, replay, analyze, and teach interactions in ways that GUI tools resist.
+
+ByteDojo uses this property directly — terminal keystrokes are first-class data, not side effects of a GUI interaction. That's what makes keystroke analysis tractable without instrumentation that fights the host environment.
