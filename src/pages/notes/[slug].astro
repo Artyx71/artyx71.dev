@@ -21,7 +21,7 @@ const { title, date, lede } = entry.data
 
 <ProseLayout title={title} description={lede}>
   <a
-    href={`${import.meta.env.BASE_URL}notes`}
+    href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/notes`}
     class="font-mono text-xs text-text2 hover:text-accent transition-colors block mb-10 not-prose"
   >
     ← back to notes
