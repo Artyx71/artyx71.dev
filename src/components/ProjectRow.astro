@@ -1,0 +1,25 @@
+---
+interface Props {
+  title: string
+  tagline: string
+  status: 'active' | 'WIP' | 'archived'
+  href: string
+}
+
+const { title, tagline, status, href } = Astro.props
+---
+
+<a
+  href={href}
+  class="grid grid-cols-[12rem_1fr_5rem] gap-4 items-baseline py-3 border-t border-border group transition-colors hover:border-accent"
+>
+  <span class="font-mono text-sm text-text1 group-hover:text-accent transition-colors">
+    {title}
+  </span>
+  <span class="text-sm text-text2">
+    {tagline}
+  </span>
+  <span class="font-mono text-xs text-text2 text-right">
+    {status}
+  </span>
+</a>
