@@ -16,14 +16,14 @@ const { title, description, canonical } = Astro.props
 <html lang="en">
   <head>
     <SEO {title} {description} {canonical} />
+    <!-- Geist Sans via rsms.me (official Vercel CDN) -->
+    <link rel="preconnect" href="https://rsms.me" />
+    <link rel="stylesheet" href="https://rsms.me/geist/geist.css" />
+    <!-- IBM Plex Mono via Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&display=swap"
       rel="stylesheet"
     />
   </head>
