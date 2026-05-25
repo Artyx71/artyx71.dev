@@ -1,0 +1,24 @@
+---
+title: "LiveStyleSync"
+tagline: "CSS patching over WebSocket with HMR sync"
+status: "active"
+github: "https://github.com/Artyx71/livestylesync"
+pipeline:
+  - "overlay"
+  - "websocket bridge"
+  - "source patcher"
+  - "HMR sync"
+description: "A browser overlay that receives CSS patch events via WebSocket and applies them without a full page reload, syncing with the HMR pipeline."
+---
+
+LiveStyleSync intercepts CSS changes at the source and delivers them to the browser through a WebSocket bridge, bypassing the full module graph reload that standard HMR triggers.
+
+## How it works
+
+The **overlay** is a thin script injected into the page. It listens on a dedicated WebSocket channel for patch events — not full module invalidations.
+
+The **WebSocket bridge** sits between the dev server and the browser. It filters CSS-related events from the HMR stream and repackages them as targeted patch payloads: selector + property + value, no surrounding context.
+
+The **source patcher** reads the original CSS source, applies the diff, and writes it back. This keeps the source of truth in sync with what the browser is displaying — critical for tools that depend on file state.
+
+The **HMR sync** step signals the underlying bundler that the file has changed, so hot-reloading tooling (Vite, Webpack) doesn't overwrite the patch on the next full reload.
