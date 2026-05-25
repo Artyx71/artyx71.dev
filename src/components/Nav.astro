@@ -1,22 +1,25 @@
 ---
 const pathname = Astro.url.pathname
+const base = import.meta.env.BASE_URL // '/artyx71.dev/' in prod, '/' in dev
 
 function isActive(href: string): boolean {
-  if (href === '/') return pathname === '/'
+  if (href === base || href === base.slice(0, -1)) {
+    return pathname === base || pathname === base.slice(0, -1) || pathname === '/'
+  }
   return pathname.startsWith(href)
 }
 
 const links = [
-  { href: '/projects', label: 'projects' },
-  { href: '/notes',    label: 'notes'    },
-  { href: '/setup',    label: 'setup'    },
-  { href: '/contact',  label: 'contact'  },
+  { href: `${base}projects`, label: 'projects' },
+  { href: `${base}notes`,    label: 'notes'    },
+  { href: `${base}setup`,    label: 'setup'    },
+  { href: `${base}contact`,  label: 'contact'  },
 ]
 ---
 
 <nav class="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2 py-8">
   <a
-    href="/"
+    href={base}
     class="font-mono text-sm text-text2 transition-colors hover:text-accent"
   >
     Andrew Gabaraev

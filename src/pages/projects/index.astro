@@ -20,7 +20,7 @@ const sorted = projects.sort((a, b) => a.data.title.localeCompare(b.data.title))
           title={project.data.title}
           tagline={project.data.tagline}
           status={project.data.status}
-          href={`/projects/${project.slug}`}
+          href={`${import.meta.env.BASE_URL}projects/${project.slug}`}
         />
       ))}
       <div class="border-t border-border" />

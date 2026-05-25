@@ -24,7 +24,7 @@ const { title, tagline, status, github, pipeline, explorations } = entry.data
 <BaseLayout title={title} description={tagline}>
   <article class="py-12">
     <a
-      href="/projects"
+      href={`${import.meta.env.BASE_URL}projects`}
       class="font-mono text-xs text-text2 hover:text-accent transition-colors block mb-10"
     >
       ← back to projects
