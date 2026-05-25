@@ -1,0 +1,28 @@
+# project docs — not for version control
+SPEC.md
+CLAUDE.md
+
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# environment
+.env
+.env.*
+!.env.example
+
+# editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# pnpm
+.pnpm-debug.log
