@@ -1,0 +1,28 @@
+---
+interface Props {
+  title: string
+  description: string
+  canonical?: string
+}
+
+const { title, description, canonical } = Astro.props
+const siteTitle = title === 'Andrew Gabaraev'
+  ? title
+  : `${title} — Andrew Gabaraev`
+const url = canonical ?? Astro.url.href
+---
+
+<title>{siteTitle}</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content={description} />
+<link rel="canonical" href={url} />
+
+<meta property="og:title" content={siteTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content="website" />
+<meta property="og:url" content={url} />
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content={siteTitle} />
+<meta name="twitter:description" content={description} />
