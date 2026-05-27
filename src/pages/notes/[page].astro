@@ -1,0 +1,85 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+
+export async function getStaticPaths() {
+  const NOTES_PER_PAGE = 10
+  const notes = await getCollection('notes')
+  const sorted = notes.sort(
+    (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+  )
+
+  const totalPages = Math.ceil(sorted.length / NOTES_PER_PAGE)
+
+  return Array.from({ length: Math.max(0, totalPages - 1) }, (_, i) => {
+    const pageNum = i + 2
+    return {
+      params: { page: String(pageNum) },
+      props: {
+        notes: sorted.slice((pageNum - 1) * NOTES_PER_PAGE, pageNum * NOTES_PER_PAGE),
+        currentPage: pageNum,
+        totalPages,
+      },
+    }
+  })
+}
+
+interface Props {
+  notes: Awaited<ReturnType<typeof getCollection<'notes'>>>
+  currentPage: number
+  totalPages: number
+}
+
+const { notes: pageNotes, currentPage, totalPages } = Astro.props
+const base = import.meta.env.BASE_URL.replace(/\/$/, '')
+
+function pageHref(p: number): string {
+  return p === 1 ? `${base}/notes` : `${base}/notes/${p}`
+}
+---
+
+<BaseLayout
+  title={`Notes — page ${currentPage}`}
+  description="Engineering notes by Andrew Gabaraev on devtools, runtime systems, and browser internals."
+>
+  <section class="py-12">
+    <p class="font-mono text-xs text-text3 uppercase tracking-widest mb-6">notes/</p>
+
+    <div class="space-y-6">
+      {pageNotes.map((note) => (
+        <a
+          href={`${base}/notes/${note.slug}`}
+          class="block group"
+        >
+          <div class="flex flex-col gap-1">
+            <span class="font-mono text-xs text-text2">{note.data.date}</span>
+            <span class="text-sm text-text1 group-hover:text-accent transition-colors">
+              {note.data.title}
+            </span>
+            <span class="text-xs text-text2">{note.data.lede}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="flex items-center justify-between mt-12 font-mono text-xs text-text2">
+      <a
+        href={pageHref(currentPage - 1)}
+        class="hover:text-accent transition-colors"
+      >
+        ← prev
+      </a>
+      <span class="text-text3">page {currentPage} / {totalPages}</span>
+      {currentPage < totalPages ? (
+        <a
+          href={pageHref(currentPage + 1)}
+          class="hover:text-accent transition-colors"
+        >
+          next →
+        </a>
+      ) : (
+        <span class="text-text3 invisible">next →</span>
+      )}
+    </div>
+  </section>
+</BaseLayout>
