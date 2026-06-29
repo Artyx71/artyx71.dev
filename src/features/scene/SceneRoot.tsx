@@ -5,6 +5,9 @@ import { InputProvider } from '@/features/input/InputProvider'
 import { Player } from '@/features/player/Player'
 import { FollowCamera } from '@/features/camera/FollowCamera'
 import { City } from '@/features/world/City'
+import { ZoneTrigger } from '@/features/zones/ZoneTrigger'
+import { ZoneLabel } from '@/features/zones/ZoneLabel'
+import { ZONES } from '@/features/zones/zones.config'
 
 export function SceneRoot() {
   const playerGroupRef = useRef<THREE.Group>(null)
@@ -16,7 +19,6 @@ export function SceneRoot() {
         camera={{ fov: 60, near: 0.1, far: 500, position: [0, 4, 8] }}
         shadows
       >
-        {/* Ambient + directional for basic visibility */}
         <ambientLight intensity={0.2} />
         <directionalLight
           position={[10, 20, 10]}
@@ -34,6 +36,17 @@ export function SceneRoot() {
 
         <Suspense fallback={null}>
           <City />
+
+          {/* Zone triggers (logic only, no render) */}
+          {ZONES.map((zone) => (
+            <ZoneTrigger key={zone.id} zone={zone} playerRef={playerGroupRef} />
+          ))}
+
+          {/* Zone labels (3D billboard text) */}
+          {ZONES.map((zone) => (
+            <ZoneLabel key={zone.id} zone={zone} />
+          ))}
+
           <InputProvider>
             <Player groupRef={playerGroupRef} cameraYawRef={cameraYawRef} />
             <FollowCamera target={playerGroupRef} cameraYawRef={cameraYawRef} />
