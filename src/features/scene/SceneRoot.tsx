@@ -12,6 +12,8 @@ import { InteractionSystem } from '@/features/interactions/InteractionSystem'
 import { InteractableObject } from '@/features/interactions/InteractableObject'
 import { INTERACTABLES } from '@/features/interactions/interactables.config'
 import { ProjectModal } from '@/features/ui-overlay/ProjectModal'
+import { Lights } from './Lights'
+import { Fog } from './Fog'
 
 export function SceneRoot() {
   const playerGroupRef = useRef<THREE.Group>(null)
@@ -23,14 +25,8 @@ export function SceneRoot() {
         camera={{ fov: 60, near: 0.1, far: 500, position: [0, 4, 8] }}
         shadows
       >
-        <ambientLight intensity={0.2} />
-        <directionalLight
-          position={[10, 20, 10]}
-          intensity={0.6}
-          castShadow
-          shadow-mapSize={[1024, 1024]}
-        />
-        <fog attach="fog" args={['#0a0a12', 20, 80]} />
+        <Lights />
+        <Fog />
 
         <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
           <planeGeometry args={[200, 200]} />
