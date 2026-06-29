@@ -4,6 +4,7 @@ import * as THREE from 'three'
 import { InputProvider } from '@/features/input/InputProvider'
 import { Player } from '@/features/player/Player'
 import { FollowCamera } from '@/features/camera/FollowCamera'
+import { City } from '@/features/world/City'
 
 export function SceneRoot() {
   const playerGroupRef = useRef<THREE.Group>(null)
@@ -32,6 +33,7 @@ export function SceneRoot() {
         </mesh>
 
         <Suspense fallback={null}>
+          <City />
           <InputProvider>
             <Player groupRef={playerGroupRef} cameraYawRef={cameraYawRef} />
             <FollowCamera target={playerGroupRef} cameraYawRef={cameraYawRef} />
