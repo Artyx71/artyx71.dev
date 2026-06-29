@@ -12,6 +12,8 @@ import { InteractionSystem } from '@/features/interactions/InteractionSystem'
 import { InteractableObject } from '@/features/interactions/InteractableObject'
 import { INTERACTABLES } from '@/features/interactions/interactables.config'
 import { ProjectModal } from '@/features/ui-overlay/ProjectModal'
+import { HUD } from '@/features/ui-overlay/HUD'
+import { ControlsHint } from '@/features/ui-overlay/ControlsHint'
 import { Lights } from './Lights'
 import { Fog } from './Fog'
 
@@ -56,6 +58,8 @@ export function SceneRoot() {
       </Canvas>
 
       <ProjectModal />
+      <HUD />
+      <ControlsHint />
     </div>
   )
 }
