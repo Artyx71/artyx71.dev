@@ -11,8 +11,8 @@ import {
 } from './player.visual.constants'
 
 interface PlayerProps {
-  groupRef: React.RefObject<THREE.Group | null>
-  cameraYawRef: React.RefObject<number>
+  groupRef:     React.RefObject<THREE.Group | null>
+  cameraYawRef: React.MutableRefObject<number>
 }
 
 export function Player({ groupRef, cameraYawRef }: PlayerProps) {

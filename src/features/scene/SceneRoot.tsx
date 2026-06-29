@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber'
 import * as THREE from 'three'
 import { InputProvider } from '@/features/input/InputProvider'
 import { Player } from '@/features/player/Player'
+import { FollowCamera } from '@/features/camera/FollowCamera'
 
 export function SceneRoot() {
   const playerGroupRef = useRef<THREE.Group>(null)
@@ -33,6 +34,7 @@ export function SceneRoot() {
         <Suspense fallback={null}>
           <InputProvider>
             <Player groupRef={playerGroupRef} cameraYawRef={cameraYawRef} />
+            <FollowCamera target={playerGroupRef} cameraYawRef={cameraYawRef} />
           </InputProvider>
         </Suspense>
       </Canvas>

@@ -15,8 +15,8 @@ const _direction = new THREE.Vector3()
 const _euler = new THREE.Euler(0, 0, 0, 'YXZ')
 
 export function usePlayerController(
-  groupRef: React.RefObject<THREE.Group | null>,
-  cameraYawRef: React.RefObject<number>,
+  groupRef:     React.RefObject<THREE.Group | null>,
+  cameraYawRef: React.MutableRefObject<number>,
   setAnimation: (name: AnimationName) => void,
 ) {
   const { movementVectorRef, activeCommandsRef } = useInput()
